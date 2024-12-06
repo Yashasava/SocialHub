@@ -1,0 +1,126 @@
+<%- include('header') %>
+
+<!-- <center><p><h2>Name : </h2></p>
+    <p><h2> Email : </h2></p></center>  -->
+<center>
+  <div class="card" style="width: 18rem; background-color: rgb(231, 217, 22)">
+    <div
+      style="display: flex; text-align: justify; justify-content: space-around"
+    >
+      <img
+        class="card-img-top"
+        src="https://i.pinimg.com/236x/2c/9e/0f/2c9e0f0f72943eb8585a1c0ef9f44689.jpg"
+        alt="Card image cap"
+        style="
+          height: 100px;
+          width: 100px;
+          border-radius: 50%;
+          border: 1px solid black;
+          display: inline-block;
+          margin: 0.1rem;
+        "
+      />
+      <div style="margin: 1rem">
+        <h5 class="card-title"><%= user.name %></h5>
+        <h6 class="card-title"><%= user.email %></h6>
+      </div>
+    </div>
+    <hr>
+    <div class="card-body">
+      <p class="card-text" style="text-align: justify">
+        Write Something About Yourself😀<br />It's going to be fun.....
+      </p>
+      <!-- <a href="#" class="btn btn-primary">Edit</a> -->
+    </div>
+  </div>
+</center>
+<br /><br />
+
+<div
+  style="
+    background: linear-gradient(
+      90deg,
+      rgba(2, 0, 36, 1) 0%,
+      rgba(77, 67, 63, 1) 22%,
+      rgba(9, 206, 246, 1) 100%
+    );
+    width: 70%;
+    margin: auto;
+  "
+>
+  <ul class="list-group">
+    <% posts.map((post)=>{ %>
+
+    <p>
+      <li
+        class="list-group-item"
+        style="
+          background: linear-gradient(
+            90deg,
+            rgba(131, 58, 180, 1) 0%,
+            rgba(253, 29, 29, 1) 50%,
+            rgba(252, 176, 69, 1) 100%
+          );
+          color: antiquewhite;
+        "
+      >
+        <button class="btn btn-warning"><%= post.user.name %></button> &nbsp;
+        <%= post.content %> <% if(locals.user && locals.user.id == post.user.id)
+        { %>
+        <a href="/post/destroy/<%= post.id %>"
+          ><button class="btn btn-danger btn-sm">Delete</button></a
+        >
+        <% } %>
+        <br />
+        <br />
+        <% if(locals.user) { %>
+
+        <form class="row g-3" action="/comment/create" method="post">
+          <div class="col-auto" style="color: antiquewhite">
+            <input
+              type="text"
+              name="content"
+              class="form-control"
+              id="content"
+              placeholder="Type comment here..."
+              required
+            />
+            <input type="hidden" name="post" value="<%= post._id %>" />
+          </div>
+          <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-3">Comment</button>
+          </div>
+        </form>
+
+        <% } %>
+
+        <div>
+          <% post.comments.map((comment)=>{ %>
+          <hr />
+          <p>
+            <small
+              ><button class="btn btn-success btn-sm">
+                <%= comment.user.name %></button
+              >&nbsp;&nbsp;
+              <span
+                style="
+                  border: 0.6px solid rgb(65, 64, 64);
+                  padding: 5px;
+                  font-weight: bold;
+                "
+              >
+                <%= comment.content %>
+              </span>
+            </small>
+          </p>
+
+          <% }) %>
+        </div>
+      </li>
+    </p>
+
+    <% }) %>
+  </ul>
+</div>
+
+<%- include('footer') %>
